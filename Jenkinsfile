@@ -10,9 +10,9 @@ pipeline {
                 cleanWs()
             }
         }
-        stage('Git clone') {
+        stage('Git clone to my workspace or git checkout stage') {
             steps {
-                git branch: 'main', url: 'https://github.com/Aseemakram19/java-maven-app.git'
+                git branch: 'main', url: 'https://github.com/Sasirv/CI-CD-jave_maven_appilication.git'
             }
         }
         stage('maven war file build') {
@@ -25,7 +25,7 @@ pipeline {
                 script{
                         sh '''docker stop javamavenapp_container
                         docker rm javamavenapp_container
-                        docker rmi javamavenapp aseemakram19/javamavenapp:latest'''
+                        docker rmi javamavenapp sasi8930/javamavenapp:latest'''
                 }  
             }
         }
@@ -35,15 +35,15 @@ pipeline {
                     withDockerRegistry(credentialsId: 'docker', toolname: 'docker'){
                 
                         sh '''docker build -t javamavenapp .
-                        docker tag javamavenapp aseemakram19/javamavenapp:latest
-                        docker push  aseemakram19/javamavenapp:latest'''
+                        docker tag javamavenapp sasi8930/javamavenapp:latest
+                        docker push  sasi8930/javamavenapp:latest'''
                       } 
                 }
             }
         }
         stage('docker container of app') {
             steps {
-               sh 'docker run -d -p 9000:8080 --name javamavenapp_container -t aseemakram19/javamavenapp:latest'
+               sh 'docker run -d -p 9000:8080 --name javamavenapp_container -t sasi8930/javamavenapp:latest'
             }
         }
         
@@ -64,9 +64,9 @@ pipeline {
                     <p>Started by: ${buildUser}</p>
                     <p>Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                 """,
-                to: 'mohdaseemakram19@gmail.com',
-                from: 'mohdaseemakram19@gmail.com',
-                replyTo: 'mohdaseemakram19@gmail.com',
+                to: 'youremail@gmail.com',
+                from: 'youremail@gmail.com',
+                replyTo: 'youremail@gmail.com',
                 mimeType: 'text/html',
                 attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
             )
